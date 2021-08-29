@@ -17,6 +17,7 @@ matplotlib.rcParams['text.usetex'] = True
 import matplotlib.pyplot as plt
 import webbrowser
 
+#Importar la base de datos desde reporsitorio en github
 document = 'https://raw.githubusercontent.com/rafa3008/GvsTModQ/main/comp.csv'
 data_b = pd.read_csv(document)
 data_b
@@ -24,9 +25,6 @@ data_b
 path_ReadMe= 'https://github.com/rafa3008/GvsTModQ/blob/main/README.md'
 path_db='https://github.com/rafa3008/GvsTModQ/blob/main/comp.csv'
 compounds = data_b["Fórmula del compuesto"].values
-# print(compounds)
-"CH2Cl2" in compounds 
-# Se espera que devuelva True
 
 """
  Código modificado tomado de: 
@@ -39,8 +37,8 @@ therm_list = []
 compounds_indexes=[]
 la_lista =[]
 elements_reaction = OrderedDict()
-running = True
-# while running:
+
+#Parte del codigo para ingresar especies de la reacción 
 print("Ingrese los reactivos a emplear, "
             "recuerde el correcto uso de la notación química")
 print("Un ejemplo del input a ingresar es  CaO + H2O")
@@ -56,7 +54,6 @@ else:
 
 reactants = input("Reactivos: ")
 
-  # if reactants.lower() != "h":
 
 print("Ingrese los productos de su reacción, "
             "recuerde el correcto uso de la notación química")
@@ -66,6 +63,7 @@ reactants = reactants.replace(' ', '').split("+")
 products = products.replace(' ', '').split("+")
 index = data_b.index
 
+#Codigo para balanceo de ecuación química (66-188) y creación de diccionario de los compuestos involucrados
 for reactivo in reactants:
   if reactivo in compounds:
     condition = data_b["Fórmula del compuesto"] == reactivo
@@ -82,7 +80,7 @@ for reactivo in reactants:
       info_termodinamica = data_b.iloc[[element_index],1:].values
       valor_termodinamica = info_termodinamica.tolist()
       elements_reaction[reactivo] = valor_termodinamica
-# {h2o: [a, b, c.....], o2: [a, b, c, d, e...]} 
+
   
   else:
     raise Exception(f"El compouesto {reactivo} no se encuentra"
@@ -106,7 +104,7 @@ for producto in products:
       " en la base de datos")
    
 
-
+#Separación en listas de los parámetros termodinámicos en el orden en que se escribe la reacción química global 
 A = ([item[0][0] for item in  elements_reaction.values()])
 B = ([item[0][1] for item in  elements_reaction.values()])
 C = ([item[0][2] for item in  elements_reaction.values()])
@@ -191,12 +189,14 @@ for i in range(len(products)):
 print('La reacción balaceada es:')
 print()
 print(output)
-print("\n¿Se encuentra satisfechos con los coeficientes mostrados?")
+#Modificación de coeficientes estequiométricos
+print("\n¿Se encuentra satisfecho con los coeficientes mostrados?")
 print("En caso de que no lo esté, "
           "ingrese el número por el que desea multiplicar todos los coeficientes")
 re_balance = float(input("Multiplicar por "))
 print()
 
+#Impreme reacción con coeficientes modificados
 if re_balance:
   solution = re_balance * solution
   coEffi = solution.tolist()
@@ -213,10 +213,9 @@ if re_balance:
       print(output)
 else:
   print(output)
-# else:
-# print(compounds)
 
 
+#Lista de coeficientes estequiométricos dependiendo si es reactivo (*-1) o producto (*1) en el orden de la reacción global
 Coef_oper=[]
 for i in range(len(reactants)):
     Coef_oper.append(-1*coEffi[i][0])
@@ -225,9 +224,11 @@ for i in range(len(products)):
     Coef_oper.append(coEffi[i+len(reactants)][0])
 
 
-
+#Rango de temperatura default 
 rang=np.linspace(298,1000,500)
-def H_cp(T):
+#Funciones termodinámicas
+def H_cp(T): 
+    '''Calcula la diferencia de entalpía de la reacción con dependencia de la temperatura'''
     H_t=0
     T=T/1000
     for i in range(len(Coef_oper)):
@@ -235,12 +236,14 @@ def H_cp(T):
     return H_t
 
 def H_est():
+    '''Calcula la diferencia de entalpía estándar'''
     H_s=0
     for i in range(len(Coef_oper)):
         H_s += H[i]*Coef_oper[i]
     return H_s
 
 def S(T):
+    '''Calcula la entropía de la reacción con dependencia de la temeperatura'''
     T=T/1000
     S_t=0
     for i in range(len(Coef_oper)):
@@ -248,11 +251,14 @@ def S(T):
     return S_t/1000
 
 def G1(t):
+    '''Calcula la diferencia de energía libre de la reacción a condiciones estándar'''
     return H_est() - t*S(298)
 
 def G2(t):
+    '''Calcula la diferencia de la energía libre de la reacción con dependencia de la temeperatura'''
     return H_cp(t) - t*S(t)
 
+#T_maxs muestra los límites superiores para los cuales los parámetros termodinámicos de cada especie son válidos
 T_maxs = ([item[0][9] for item in  elements_reaction.values()])
 print('\nEl límite máximo de temperatura para los compuestos escogidos es:')
 print(T_maxs)
