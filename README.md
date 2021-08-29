@@ -5,6 +5,7 @@ El código utiliza una base de datos comp.csv con información termodinámica pa
 Gráficas G vs T para dos casos:
 1) G vs T, G = H° - T°S
 2) G vs T, G = H(T) - TS(T)
+
 Los rangos default de la temperatura son (298-1000) y las gráficas son generadas en este mismo; sin embargo hay compuestos cuyos parámetros termodinámicos no abarquen este rango completamente, por lo que el usuario puede redefinir el límite superior de este rango de temperatura y generar nuevamente las gŕaficas.
 
 El código es altamente dependiente de la forma en que es escriba la ecuación química inicial, como ejemplo considere la descomposión del agua:
