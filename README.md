@@ -17,3 +17,6 @@ De esta forma las constantes y rangos de temperatura irán en el orden H2O-O2-H2
 H2O -> H2 + O2
 
 Los parámetros y rangos en las listas de parámetros y rangos de temperatura tendrán el orden H2O-H2-O2.
+
+La base de datos es leída directamente del repositorio presente, por lo que el usuario no está en obligación de modificar los path de lectura; si se quisiera descargar el código y la base de datos para modificarla, se debe tener precaución con el path de lectura de la base de datos.
+
