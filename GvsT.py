@@ -12,8 +12,6 @@ import pandas as pd
 from sympy import Matrix, lcm
 from collections import OrderedDict
 import numpy as np
-import matplotlib
-matplotlib.rcParams['text.usetex'] = True
 import matplotlib.pyplot as plt
 import webbrowser
 
@@ -277,19 +275,19 @@ elif Opci in {'Op2'}:
     plt.grid()
     plt.plot(rang,G1(rang))
     plt.xlabel("T(K)")
-    plt.ylabel(r'$\Delta$G(kJ/mol)')
+    plt.ylabel('ΔG(kJ/mol)')
 elif Opci in {'Op3'}:
     plt.grid()
     plt.plot(rang,G2(rang))
     plt.xlabel("T(K)")
-    plt.ylabel(r'$\Delta$G(kJ/mol)')
+    plt.ylabel('ΔG(kJ/mol)')
 elif Opci in {'all'}:
     plt.grid()
     plt.plot(rang,G1(rang),label='H° y S°')
     plt.plot(rang,G2(rang),label='H(T) y S(T)')
     plt.legend()
     plt.xlabel("T(K)")
-    plt.ylabel(r'$\Delta$G(kJ/mol)')
+    plt.ylabel('ΔG(kJ/mol)')
 elif Opci in {'Change'}:
     print('Defina el nuevo límite máximo de temperatura:')
     lim_max=float(input())
@@ -299,7 +297,7 @@ elif Opci in {'Change'}:
     plt.plot(rang2,G2(rang2),label='H(T) y S(T)')
     plt.legend()
     plt.xlabel("T(K)")
-    plt.ylabel(r'$\Delta$G(kJ/mol)')
+    plt.ylabel('ΔG(kJ/mol)')
     
 plt.show()
 
