@@ -12,10 +12,10 @@ import pandas as pd
 from sympy import Matrix, lcm
 from collections import OrderedDict
 import numpy as np
-import matplotlib.pyplot as plt
+import matplotlib
 matplotlib.rcParams['text.usetex'] = True
+import matplotlib.pyplot as plt
 import webbrowser
-
 
 document = 'https://raw.githubusercontent.com/rafa3008/GvsTModQ/main/comp.csv'
 data_b = pd.read_csv(document)
